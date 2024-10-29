@@ -8,6 +8,7 @@ $jsonFilePath = 'words_dictionary.json';
 runGame($jsonFilePath);
 // Function to run the game multiple times and gather statistics
 function runGame($jsonFilePath, $totalGames = 100) {
+    // Instantiate the class with the path to JSON vocabulary file
     $wordGame = new WordGame($jsonFilePath);
     $vocabFilter = new VocabularyFilter($jsonFilePath);
 
@@ -18,7 +19,6 @@ function runGame($jsonFilePath, $totalGames = 100) {
     for ($i = 0; $i < $totalGames; $i++) {
         $wordGame->selectRandomWord();
         $lengthOfWord = $wordGame->getLetterCount();
-        // Instantiate the class with the path to JSON vocabulary file
         // Get words with the specified length for not keep all vocabulary
         $words = $vocabFilter->getWordsByLength($lengthOfWord);
 
@@ -34,7 +34,8 @@ function runGame($jsonFilePath, $totalGames = 100) {
         // Game loop
         while ($failedAttempts < $maxAttempts) {
             $lettersPopularity = $vocabFilter->getLetterPopularity($words);
-            print_r($lettersPopularity);
+            //print_r($lettersPopularity);
+            echo "\n";
             $letter = suggestLetter($lettersPopularity, $guessedLetters, $failedLetters);
             echo "Entered letter: $letter\n";
 
@@ -56,6 +57,7 @@ function runGame($jsonFilePath, $totalGames = 100) {
                     return preg_match($regexPattern, $word);
                 });
                 echo "Status: $pattern\n";
+                echo "Count of possible words in dictionary: " . count($words) . "\n";
 
             } else {
                 $failedLetters[] = $letter;
